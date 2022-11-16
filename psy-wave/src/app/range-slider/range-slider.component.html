@@ -1,0 +1,8 @@
+<div class="container">
+    <label for="answerRange" class="form-label">{{qText}}</label>
+    <div class="slider">
+      <span>Не согласен</span>
+      <input type="range" class="form-range" [min]="min" [max]="max" [value]="qScore" id="answerRange" (change)="changeScore(+input.value)" #input>
+      <span>Согласен</span>
+    </div>
+  </div>

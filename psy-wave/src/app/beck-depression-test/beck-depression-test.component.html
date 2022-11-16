@@ -1,0 +1,52 @@
+<h1>Шкала депрессии Бека</h1>
+<p>Шкала депрессии Бека — это тест, который позволяет с высокой точностью установить депрессию, а также определить, насколько она сильна.</p>
+
+<div *ngIf="!isFinished; else showResults">
+  <div *ngIf="!isUnfolded">
+    <h3>Вопрос: {{selected + 1}} из {{questions.length}}</h3>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-label="Basic example" aria-valuenow="2" aria-valuemin="0" aria-valuemax="10"
+           [ngStyle]="{'width' : (selected + 1) / questions.length * 100 + '%'}"></div>
+    </div>
+    <app-radio-selector [qText]="questions[selected].text" [variants]="questions[selected].variants" [qScore]="questions[selected].score" (scoreChangedEvent)="changeScore(selected, $event)"></app-radio-selector>
+
+    <div class="question-manager">
+      <button type="button" class="btn btn-success" *ngIf="selected == questions.length - 1" (click)="finish()">Результаты</button>
+      <button type="button" class="btn btn-primary" (click)="Next(); countScore()" *ngIf="selected != questions.length - 1">Следующий</button>
+      <button type="button" class="btn btn-primary" (click)="Previous(); countScore()" *ngIf="selected != 0">Предыдущий</button>
+      <a href="javascript: void(0)" (click)="changeList()"><i>Развернуть список вопросов</i></a>
+    </div>
+  </div>
+
+  <div *ngIf="isUnfolded">
+    <ng-container *ngFor="let question of questions; index as i;">
+      <app-radio-selector [qText]="question.text" [variants]="question.variants" [qScore]="question.score" (scoreChangedEvent)="changeScore(i, $event)"></app-radio-selector>
+    </ng-container>
+    <div class="question-manager">
+      <button type="button" class="btn btn-success" (click)="finish()">Результаты</button>
+      <a href="javascript: void(0)" (click)="changeList()"><i>Свернуть список</i></a>
+    </div>
+  </div>
+</div>
+
+<ng-template #showResults>
+  <h3>Ваш счет: {{score}} из 63</h3>
+  <div *ngIf="score <= 13">
+    <p>Депрессивных симптомов нет. С вашим психическим здоровьем всё в порядке.</p>
+  </div>
+  <div *ngIf="score >= 14 && score <= 19">
+    <p>Вероятна лёгкая депрессия (субдепрессия).</p>
+  </div>
+  <div *ngIf="score >= 20 && score <= 28">
+    <p>Умеренная депрессия.</p>
+  </div>
+  <div *ngIf="score >= 29">
+    <p>Тяжёлая депрессия. Состояние тем сложнее, чем больше количество баллов.</p>
+  </div>
+
+  <button type="button" class="btn btn-secondary" (click)="return()">Повторить</button>
+</ng-template>
+
+    <p>Счет: {{score}}</p>
+
+

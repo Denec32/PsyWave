@@ -1,0 +1,10 @@
+<div class="container">
+    <p class="form-label">{{qText}}</p>
+    <form>
+      <ng-container *ngFor="let variant of variants; index as i;">
+        <input type="radio" id="{{i}}" name="variant" value="{{i}}"
+               (change)="changeScore(i)" [attr.checked]="qScore == i ? 'checked' : null">
+        <label for="{{i}}">{{variant}}</label><br>
+      </ng-container>
+    </form>
+  </div>
