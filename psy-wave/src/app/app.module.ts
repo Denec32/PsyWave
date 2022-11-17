@@ -7,20 +7,19 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { BeckDepressionTestComponent } from './beck-depression-test/beck-depression-test.component';
 import { RadioSelectorComponent } from './radio-selector/radio-selector.component';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     BeckDepressionTestComponent,
     RadioSelectorComponent,
-    RangeSliderComponent
+    RangeSliderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
