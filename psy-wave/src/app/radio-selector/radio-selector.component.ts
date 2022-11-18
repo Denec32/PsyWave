@@ -10,7 +10,7 @@ export class RadioSelectorComponent implements OnInit {
 
   @Input() qText: string = "";
   @Input() qScore: number = 0;
-  @Input() variants:string[] = [];
+  @Input() variants: string[] = [];
 
   @Output() scoreChangedEvent = new EventEmitter<number>();
 
@@ -19,7 +19,10 @@ export class RadioSelectorComponent implements OnInit {
     this.scoreChangedEvent.emit(value);
   }
 
-  constructor() { }
+  constructor() { 
+    console.log(this.qScore);
+
+  }
 
   ngOnInit(): void {
   }

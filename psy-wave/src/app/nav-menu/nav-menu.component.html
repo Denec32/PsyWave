@@ -1,37 +1,28 @@
-<header>
-    <nav
-      class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-    >
-      <div class="container">
-        <a class="navbar-brand" [routerLink]="['/']">PsiWave</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target=".navbar-collapse"
-          aria-label="Toggle navigation"
-          [attr.aria-expanded]="isExpanded"
-          (click)="toggle()"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-          [ngClass]="{ show: isExpanded }"
-        >
-          <ul class="navbar-nav flex-grow">
-            <li class="nav-item"
-                [routerLinkActive]="['link-active']"
-                [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link text-dark" [routerLink]="['/beck']">Beck's Depression Test</a>
-            </li>
-            <li class="nav-item"
-                [routerLinkActive]="['link-active']"
-                [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Список Тестов</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="beck-depression-test">Шкала Депрессии</a>
+      <a mat-list-item href="beck-depression-test">Еще Один Тест</a>
+      <a mat-list-item href="beck-depression-test">Другой Тест</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>PsyWave</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
