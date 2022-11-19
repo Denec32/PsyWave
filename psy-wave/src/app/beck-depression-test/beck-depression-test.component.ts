@@ -263,7 +263,6 @@ export class BeckDepressionTestComponent implements OnInit {
   countScore() {
     let score = 0;
     for (var i = 0; i < this.questions.length; i++) {
-
       score += this.questions[i].score;
     }
     this.score = score;

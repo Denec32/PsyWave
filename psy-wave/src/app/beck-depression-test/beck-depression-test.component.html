@@ -19,40 +19,36 @@
       <button mat-flat-button color="primary" (click)="Next(); countScore()" *ngIf="selected != questions.length - 1">Следующий</button>
       <button mat-flat-button color="warn" (click)="Previous(); countScore()" *ngIf="selected != 0">Предыдущий</button>
       <mat-slide-toggle (toggleChange)="changeList()">Развернуть список вопросов</mat-slide-toggle>
-      <!--<a href="javascript: void(0)" (click)="changeList()">Развернуть список вопросов</a>-->
     </div>
+    <mat-progress-bar value="{{(selected + 1) / questions.length * 100}}"> </mat-progress-bar>
   </div>
   
   <div *ngIf="isUnfolded">
     <ng-container *ngFor="let question of questions; index as i;">
-      <app-radio-selector [qText]="question.text" [variants]="question.variants" [qScore]="question.score" (scoreChangedEvent)="changeScore(i, $event)"></app-radio-selector>
+      <mat-card-subtitle>{{questions[i].text}}</mat-card-subtitle>	
+      <app-radio-selector [variants]="question.variants" [qScore]="question.score" (scoreChangedEvent)="changeScore(i, $event)"></app-radio-selector>
+      <mat-divider></mat-divider>
     </ng-container>
     <div class="question-manager">
-      <button type="button" class="btn btn-success" (click)="finish()">Результаты</button>
-      <a href="javascript: void(0)" (click)="changeList()"><i>Свернуть список</i></a>
+      <button mat-flat-button color="primary" (click)="finish()">Результаты</button>
+      <mat-slide-toggle (toggleChange)="changeList()" [checked]="true">Свернуть список вопросов</mat-slide-toggle>
     </div>
   </div>
-  <mat-progress-bar value="{{(selected + 1) / questions.length * 100}}"> </mat-progress-bar>
 </mat-card>
 
 <ng-template #showResults>
-  <h3>Ваш счет: {{score}} из 63</h3>
-  <div *ngIf="score <= 13">
-    <p>Депрессивных симптомов нет. С вашим психическим здоровьем всё в порядке.</p>
-  </div>
-  <div *ngIf="score >= 14 && score <= 19">
-    <p>Вероятна лёгкая депрессия (субдепрессия).</p>
-  </div>
-  <div *ngIf="score >= 20 && score <= 28">
-    <p>Умеренная депрессия.</p>
-  </div>
-  <div *ngIf="score >= 29">
-    <p>Тяжёлая депрессия. Состояние тем сложнее, чем больше количество баллов.</p>
-  </div>
-
-  <button type="button" class="btn btn-secondary" (click)="return()">Повторить</button>
+  <mat-card>
+    <div>
+      <mat-card-title>Ваш счет: {{score}} из 63</mat-card-title>
+      <p *ngIf="score <= 13">Депрессивных симптомов нет. С вашим психическим здоровьем всё в порядке.</p>
+      <p *ngIf="score >= 14 && score <= 19">Вероятна лёгкая депрессия (субдепрессия).</p>
+      <p *ngIf="score >= 20 && score <= 28">Умеренная депрессия.</p>
+      <p *ngIf="score >= 29">Тяжёлая депрессия. Состояние тем сложнее, чем больше количество баллов.</p>
+      <button mat-flat-button color="primary" (click)="return()">Повторить</button>
+    </div>
+  </mat-card>
 </ng-template>
 
-    <p>Счет: {{score}}</p>
+<p>Счет: {{score}}</p>
 
 
