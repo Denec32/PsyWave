@@ -3,30 +3,28 @@
     Шкала Депрессии Бека
   </mat-card-title>
   <mat-card-content>
-    Шкала депрессии Бека — это тест, который позволяет с высокой точностью установить депрессию, а также определить, насколько она сильна.    
+    Шкала депрессии Бека — это тест, позволяющий с высокой точностью установить депрессию, а также определить, насколько она сильна.    
   </mat-card-content>
 </mat-card>
 
 <mat-card *ngIf="!isFinished; else showResults">
   <div *ngIf="!isUnfolded">
     <mat-card-title>Вопрос: {{selected + 1}} из {{questions.length}}</mat-card-title>
-    <mat-card-subtitle>{{questions[selected].text}}</mat-card-subtitle>	
-    
-    <app-radio-selector [variants]="questions[selected].variants" [qScore]="questions[selected].score" (scoreChangedEvent)="changeScore(selected, $event)"></app-radio-selector>
+
+    <app-radio-selector [header]="questions[selected].text" [variants]="questions[selected].variants" [score]="questions[selected].score" (scoreChangedEvent)="changeScore(selected, $event)"></app-radio-selector>
 
     <div class="question-manager">
       <button mat-flat-button color="primary" *ngIf="selected == questions.length - 1" (click)="finish()">Результаты</button>
-      <button mat-flat-button color="primary" (click)="Next(); countScore()" *ngIf="selected != questions.length - 1">Следующий</button>
-      <button mat-flat-button color="warn" (click)="Previous(); countScore()" *ngIf="selected != 0">Предыдущий</button>
+      <button mat-flat-button color="primary" (click)="next(); countScore()" *ngIf="selected != questions.length - 1">Следующий</button>
+      <button mat-flat-button color="warn" (click)="previous(); countScore()" *ngIf="selected != 0">Предыдущий</button>
       <mat-slide-toggle (toggleChange)="changeList()">Развернуть список вопросов</mat-slide-toggle>
     </div>
-    <mat-progress-bar value="{{(selected + 1) / questions.length * 100}}"> </mat-progress-bar>
+    <mat-progress-bar value="{{(selected + 1) / questions.length * 100}}"></mat-progress-bar>
   </div>
   
   <div *ngIf="isUnfolded">
     <ng-container *ngFor="let question of questions; index as i;">
-      <mat-card-subtitle>{{questions[i].text}}</mat-card-subtitle>	
-      <app-radio-selector [variants]="question.variants" [qScore]="question.score" (scoreChangedEvent)="changeScore(i, $event)"></app-radio-selector>
+      <app-radio-selector [header]="question.text" [variants]="question.variants" [score]="question.score" (scoreChangedEvent)="changeScore(i, $event)"></app-radio-selector>
       <mat-divider></mat-divider>
     </ng-container>
     <div class="question-manager">
@@ -39,17 +37,9 @@
 <ng-template #showResults>
   <mat-card>
     <div>
-      <mat-card-title>Ваш счет: {{score}} из 63</mat-card-title>
-      <p *ngIf="score <= 13">Депрессивных симптомов нет. С вашим психическим здоровьем всё в порядке.</p>
-      <p *ngIf="score >= 14 && score <= 19">Вероятна лёгкая депрессия (субдепрессия).</p>
-      <p *ngIf="score >= 20 && score <= 28">Умеренная депрессия.</p>
-      <p *ngIf="score >= 29">Тяжёлая депрессия. Состояние тем сложнее, чем больше количество баллов.</p>
+      <mat-card-title>Ваш счет: {{score}} из {{maxScore}}</mat-card-title>
+      <p>{{getResult()}}</p>
       <button mat-flat-button color="primary" (click)="return()">Повторить</button>
     </div>
   </mat-card>
 </ng-template>
-<!--
-  <p>Счет: {{score}}</p>
--->
-
-

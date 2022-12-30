@@ -237,6 +237,31 @@ export class BeckDepressionTestComponent implements OnInit {
     },
   ];
 
+  maxScore: number = this.countMaxScore();
+
+  results: {lowerScore: number, higherScore: number, text: string}[] = [
+    {
+      lowerScore: 0,
+      higherScore: 13,
+      text: 'Депрессивных симптомов нет. С вашим психическим здоровьем всё в порядке.'
+    },
+    {
+      lowerScore: 14,
+      higherScore: 19,
+      text: 'Вероятна лёгкая депрессия (субдепрессия).'
+    },
+    {
+      lowerScore: 20,
+      higherScore: 28,
+      text: 'Умеренная депрессия.'
+    },
+    {
+      lowerScore: 29,
+      higherScore: this.maxScore,
+      text: 'Тяжёлая депрессия. Состояние тем сложнее, чем больше количество баллов.'
+    }
+  ];
+
   selected: number = 0;
 
   score: number = 0;
@@ -244,13 +269,19 @@ export class BeckDepressionTestComponent implements OnInit {
   isFinished: boolean = false;
   isUnfolded: boolean = false;
 
-  Next() {
+  countMaxScore() {
+    let questionMaxScore = this.questions[0].variants.length - 1;
+
+    return questionMaxScore * this.questions.length;
+  }
+
+  next() {
     if (this.selected != this.questions.length - 1) {
       this.selected++;
     }
   }
 
-  Previous() {
+  previous() {
     if (this.selected != 0) {
       this.selected--;
     }
@@ -262,8 +293,9 @@ export class BeckDepressionTestComponent implements OnInit {
 
   countScore() {
     let score = 0;
-    for (var i = 0; i < this.questions.length; i++) {
-      score += this.questions[i].score;
+
+    for(let question of this.questions) {
+      score += question.score;
     }
     this.score = score;
   }
@@ -278,16 +310,24 @@ export class BeckDepressionTestComponent implements OnInit {
   }
 
   return() {
-    for (var i = 0; i < this.questions.length; i++) {
+    for (let i = 0; i < this.questions.length; i++) {
       this.questions[i].score = 0;
     }
     this.countScore();
     this.isFinished = !this.isFinished;
     this.selected = 0;
   }
-  constructor() { }
 
-  ngOnInit(): void {
+  getResult() {
+    for(let result of this.results) {
+      if(this.score >= result.lowerScore && this.score <= result.higherScore) {
+        return result.text;
+      }
+    }
+    return '';
   }
 
+  constructor() { }
+
+  ngOnInit(): void {}
 }

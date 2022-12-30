@@ -8,8 +8,8 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class RadioSelectorComponent implements OnInit {
 
-  @Input() qText: string = "";
-  @Input() qScore: number = 0;
+  @Input() header: string = "";
+  @Input() score: number = 0;
   @Input() variants: string[] = [];
 
   @Output() scoreChangedEvent = new EventEmitter<number>();
@@ -19,12 +19,8 @@ export class RadioSelectorComponent implements OnInit {
     this.scoreChangedEvent.emit(value);
   }
 
-  constructor() { 
-    console.log(this.qScore);
+  constructor() {}
 
-  }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

@@ -1,9 +1,11 @@
+<mat-card-subtitle>{{header}}</mat-card-subtitle>	
 <mat-radio-group class="variants-radio-group">
   <mat-radio-button 
-  *ngFor="let variant of variants; index as i;"
-  (change)="changeScore(i)"
-  value="{{i}}" 
-  [checked]="qScore == i ? true : false">
+    *ngFor="let variant of variants; index as i;"
+    (change)="changeScore(i)"
+    value="{{i}}" 
+    [checked]="score == i"
+  >
     {{variant}}
   </mat-radio-button>
 </mat-radio-group>
